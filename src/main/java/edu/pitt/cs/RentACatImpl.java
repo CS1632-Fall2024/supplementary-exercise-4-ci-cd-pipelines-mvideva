@@ -1,5 +1,7 @@
 package edu.pitt.cs;
 
+import static org.mockito.Mockito.inOrder;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -18,7 +20,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO: Fill in
+		Cat cat = getCat(id);
+		if(cat != null && cat.getRented())
+		{
+			cat.returnCat();
+			return true;
+		}
 		return false;
 	}
 
@@ -33,7 +40,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO: Fill in
+		Cat cat = getCat(id);
+		if(cat != null && !cat.getRented())
+		{
+			cat.rentCat();
+			return true;
+		}
 		return false;
 	}
 
@@ -47,7 +59,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		// TODO: Fill in
+		Cat cat = getCat(id);
+		if(cat != null)
+		{
+			cat.renameCat(name);
+			return true;
+		}
 		return false;
 	}
 
@@ -62,8 +79,15 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO: Fill in
-		return "WRITE CODE FOR THIS";
+		String message = "";
+		for(Cat cat : cats)
+		{
+			if(!cat.getRented())
+			{
+				message += cat.toString() + "\n";
+			}
+		}
+		return message;
 	}
 
 	/**
@@ -95,7 +119,6 @@ public class RentACatImpl implements RentACat {
 		// ID, then the cat is not in the list
 		System.out.println("Invalid cat ID.");
 		return null;
-
 	}
 
 	/**
