@@ -5,26 +5,20 @@ public class CatImpl implements Cat {
 	// TODO: Fill in with member variables
 	private int id;
 	private String name;
-	private boolean isRented;
+	private boolean rented = false;
 
 	public CatImpl(int id, String name) {
 		this.id = id;
 		this.name = name;
-		isRented = false;
 	}
 
 	public void rentCat() {
-		if(!isRented) // available to rent
-		{
-			isRented = true;
-		}
+		rented = true;
+	
 	}
 
 	public void returnCat() {
-		if(isRented) // available to return
-		{
-			isRented = false;
-		}
+		rented = false; 
 	}
 
 	public void renameCat(String name) {
@@ -32,18 +26,20 @@ public class CatImpl implements Cat {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	public boolean getRented() {
-		return isRented;
+		return rented;
+	}
+	// is "ID 1. Garfield".
+	public String toString() {
+		String cat = "ID "+ this.id+ ". " + this.name;
+		return cat;
 	}
 
-	public String toString() {
-		return String.format("ID %d. %s", id, name);
-	}
 }

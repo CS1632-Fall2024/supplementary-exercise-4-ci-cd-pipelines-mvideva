@@ -1,7 +1,5 @@
 package edu.pitt.cs;
 
-import static org.mockito.Mockito.inOrder;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,12 +18,17 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		Cat cat = getCat(id);
-		if(cat != null && cat.getRented())
-		{
-			cat.returnCat();
+		Cat c = getCat(id);
+		if(c == null){
+			System.out.println("Invalid cat ID.");
+			return false;
+		}
+		if(c.getRented() == true){
+			c.returnCat();
+			System.out.println("Welcome back, " + c.getName() + "!");
 			return true;
 		}
+		System.out.println(c.getName() + " is already here!");
 		return false;
 	}
 
@@ -38,14 +41,19 @@ public class RentACatImpl implements RentACat {
 	 * @param id the ID of the cat to rent
 	 * @return true if cat exists and was not rented out, false otherwise
 	 */
-
+	// System output is "Sorry, Old Deuteronomy is not here!" + newline
 	public boolean rentCat(int id) {
-		Cat cat = getCat(id);
-		if(cat != null && !cat.getRented())
-		{
-			cat.rentCat();
+		Cat c = getCat(id);
+		if(c == null){
+			System.out.println("Invalid cat ID.");
+			return false;
+		}		
+		if(c.getRented() == false){
+			c.rentCat();
+			System.out.println(c.getName() + " has been rented.");
 			return true;
 		}
+		System.out.println("Sorry, " + c.getName() + " is not here!");
 		return false;
 	}
 
@@ -59,13 +67,12 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean renameCat(int id, String name) {
-		Cat cat = getCat(id);
-		if(cat != null)
-		{
-			cat.renameCat(name);
-			return true;
+		Cat c = getCat(id);
+		if(c == null){
+			return false;
 		}
-		return false;
+		c.renameCat(name);
+		return true;
 	}
 
 	/**
@@ -79,15 +86,14 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		String message = "";
-		for(Cat cat : cats)
-		{
-			if(!cat.getRented())
-			{
-				message += cat.toString() + "\n";
+		String rentableCats = "";
+
+		for(int i = 0; i < cats.size(); i++){
+			if(cats.get(i).getRented() == false){
+				rentableCats += cats.get(i).toString() +"\n"; 
 			}
 		}
-		return message;
+		return rentableCats;
 	}
 
 	/**
@@ -119,6 +125,7 @@ public class RentACatImpl implements RentACat {
 		// ID, then the cat is not in the list
 		System.out.println("Invalid cat ID.");
 		return null;
+
 	}
 
 	/**
